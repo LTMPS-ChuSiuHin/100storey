@@ -101,7 +101,7 @@
         .form-control {
             width: 100%; padding: 15px; font-size: 18px; font-weight: 700;
             border: 3px solid #CFD8DC; border-radius: 15px; outline: none;
-            transition: 0.3s; background: #fff;
+            transition: 0.3s; background: #fff; color: #37474F;
         }
         .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 5px rgba(255, 152, 0, 0.2); }
         
@@ -132,16 +132,13 @@
             background: #E3F2FD; padding: 20px; border-radius: 20px; border: 3px solid #BBDEFB;
         }
         
-        /* 選項動態排版 (支援 4 或 6 選項) */
-        .options-grid { 
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; position: relative;
-        }
+        /* 選項動態排版 */
+        .options-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; position: relative;}
         .option-btn {
             background: var(--surface); border: 5px solid #EEEEEE; border-radius: 20px;
             padding: 8px; cursor: pointer; transition: all 0.1s;
             box-shadow: 0 8px 0px #EEEEEE; flex: 1 1 calc(50% - 15px); max-width: calc(50% - 15px);
         }
-        /* 6選項時切換為 3排2列 */
         .options-grid.layout-6 .option-btn { flex: 1 1 calc(33.333% - 15px); max-width: calc(33.333% - 15px); }
         .option-btn:active { transform: translateY(8px); box-shadow: 0 0px 0px transparent; }
         .option-btn img { width: 100%; border-radius: 12px; display: block; aspect-ratio: 16/9; object-fit: cover; }
@@ -152,14 +149,14 @@
         /* ===== 回饋特效覆蓋層 ===== */
         #feedback-overlay {
             display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 100; text-align: center; padding: 30px 50px; border-radius: 25px;
+            z-index: 100; text-align: center; padding: 30px 40px; border-radius: 25px;
             background: rgba(255, 255, 255, 0.95); box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            border: 6px solid; width: 80%; max-width: 500px;
+            border: 6px solid; width: 85%; max-width: 500px;
         }
         .feedback-correct { border-color: var(--success); color: var(--success); }
         .feedback-wrong { border-color: var(--danger); color: var(--danger); }
-        .feedback-icon { font-size: 80px; margin-bottom: 10px; }
-        .feedback-title { font-size: 36px; font-weight: 900; margin-bottom: 5px; }
+        .feedback-icon { font-size: 70px; margin-bottom: 5px; }
+        .feedback-title { font-size: 32px; font-weight: 900; margin-bottom: 5px; }
         .feedback-score { font-size: 28px; font-weight: 900; font-family: 'Fredoka', sans-serif; color: #FFA000; }
 
         @keyframes popUp {
@@ -169,10 +166,21 @@
         }
 
         /* ===== 排行榜設計 ===== */
+        .tabs-container { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+        .tab-btn {
+            padding: 12px 25px; border-radius: 20px; border: 3px solid #EEEEEE; background: #FAFAFA; 
+            font-weight: 900; font-size: 18px; color: #757575; cursor: pointer; transition: 0.2s;
+        }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary-dark); box-shadow: 0 4px 0px var(--primary-dark); }
+        .tab-btn:hover:not(.active) { background: #E0F7FA; border-color: var(--secondary); color: var(--secondary); }
+        
         .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; background: #FAFAFA; padding: 15px; border-radius: 20px; border: 3px solid #EEEEEE;}
         .filter-bar select { flex: 1; padding: 12px; border-radius: 12px; border: 3px solid #CFD8DC; font-weight: 700; color: #455A64; outline: none; transition: 0.2s;}
         .filter-bar select:focus { border-color: var(--secondary); }
-        .table-container { max-height: 400px; overflow-y: auto; border-radius: 15px; border: 3px solid #EEEEEE; background: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.02);}
+        
+        .lb-content-area { max-height: 400px; overflow-y: auto; border-radius: 15px; border: 3px solid #EEEEEE; background: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); padding-bottom: 10px;}
+        .lb-group-title { background: #E0F7FA; color: #00838F; padding: 12px; text-align: center; font-weight: 900; margin: 15px 15px 0 15px; border-radius: 10px 10px 0 0; font-size: 20px;}
+        
         table { width: 100%; border-collapse: collapse; text-align: center; font-size: 18px; }
         th { background: #E1F5FE; color: #0277BD; padding: 18px 10px; position: sticky; top: 0; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 0px #B3E5FC;}
         td { padding: 15px 10px; border-bottom: 2px solid #F5F5F5; font-weight: 700; color: #37474F;}
@@ -231,6 +239,19 @@
                 <label><i class="fa-solid fa-id-badge"></i> 學號 (1-36)：</label>
                 <input type="number" id="student-num" class="form-control" min="1" max="36" placeholder="請輸入學號 (如: 1 或 01)" required>
             </div>
+            
+            <div class="form-group">
+                <label><i class="fa-solid fa-cake-candles" style="color: #E91E63;"></i> 生日日期：</label>
+                <div style="display: flex; gap: 10px;">
+                    <select id="birth-month" class="form-control">
+                        <option value="" disabled selected>請選擇月份</option>
+                        </select>
+                    <select id="birth-day" class="form-control">
+                        <option value="" disabled selected>請選擇日期</option>
+                        </select>
+                </div>
+            </div>
+
             <button class="btn btn-primary" onclick="startQuiz()"><i class="fa-solid fa-play"></i> 進入挑戰！</button>
             <button class="btn btn-outline" onclick="showScreen('menu-screen')"><i class="fa-solid fa-arrow-left"></i> 回到大廳</button>
         </div>
@@ -248,9 +269,7 @@
         </div>
         
         <div class="question-text" id="question-text">題目載入中...</div>
-        
         <div class="options-grid" id="options-container"></div>
-        
         <div id="feedback-overlay"><div id="feedback-content"></div></div>
     </div>
 
@@ -260,7 +279,7 @@
         <div style="background: #FFF8E1; border: 4px solid #FFE082; padding: 20px; border-radius: 20px; display: inline-block; margin-bottom: 25px;">
             <h2 style="font-size: 42px; font-family: 'Fredoka', sans-serif; color: #F57C00;" id="final-score">總分: 0</h2>
         </div>
-        <p id="upload-status" style="font-size: 20px; font-weight: 900; margin-bottom: 30px; min-height: 30px;"></p>
+        <p id="upload-status" style="font-size: 20px; font-weight: 900; margin-bottom: 30px; min-height: 30px; line-height: 1.4;"></p>
         <div class="form-container" style="background: transparent; border: none; padding: 0;">
             <button class="btn btn-primary" onclick="showScreen('menu-screen')"><i class="fa-solid fa-house"></i> 返回大廳</button>
             <button class="btn btn-outline" onclick="openLeaderboard()"><i class="fa-solid fa-list-ol"></i> 查看排行榜</button>
@@ -269,34 +288,16 @@
 
     <div id="leaderboard-screen" class="screen">
         <h1 class="title"><i class="fa-solid fa-trophy"></i> 排行榜</h1>
-        <div class="filter-bar">
-            <select id="filter-group" onchange="renderLeaderboard()">
-                <option value="ALL">所有組別</option>
-                <option value="1-2">一、二年級</option>
-                <option value="3-4">三、四年級</option>
-                <option value="5-6">五、六年級</option>
-            </select>
-            <select id="filter-grade" onchange="renderLeaderboard()">
-                <option value="ALL">所有年級</option>
-                <option value="1">1年級</option><option value="2">2年級</option>
-                <option value="3">3年級</option><option value="4">4年級</option>
-                <option value="5">5年級</option><option value="6">6年級</option>
-            </select>
-            <select id="filter-class" onchange="renderLeaderboard()">
-                <option value="ALL">所有班別</option>
-                <option value="A">A班</option><option value="B">B班</option>
-                <option value="C">C班</option><option value="D">D班</option><option value="E">E班</option>
-            </select>
+        
+        <div class="tabs-container">
+            <button class="tab-btn active" id="btn-tab-group" onclick="switchLeaderboardMode('group')">按組別</button>
+            <button class="tab-btn" id="btn-tab-grade" onclick="switchLeaderboardMode('grade')">按級別</button>
+            <button class="tab-btn" id="btn-tab-class" onclick="switchLeaderboardMode('class')">按班別</button>
         </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>排名</th><th>年級</th><th>班別</th><th>學號</th><th>分數</th></tr>
-                </thead>
-                <tbody id="leaderboard-body">
-                    </tbody>
-            </table>
-        </div>
+
+        <div class="filter-bar" id="lb-filters" style="display: none;"></div>
+        <div id="lb-content" class="lb-content-area"></div>
+
         <div style="text-align: center; margin-top: 20px;">
             <button class="btn btn-outline" style="width: auto; padding: 12px 40px;" onclick="showScreen('menu-screen')"><i class="fa-solid fa-arrow-left"></i> 返回主選單</button>
         </div>
@@ -331,7 +332,7 @@
             { id: 7, text: "這一層的動物正在看書，不過不是坐在椅子上的。", answer: "B" },
             { id: 8, text: "這一層的動物正在用餐具進食，而樓層的數字是雙數。", answer: "D" },
             { id: 9, text: "這一層的動物正在慶祝生日。", answer: "C" },
-            { id: 10, text: "哪一層是這裏第二高的？", answer: "C" }
+            { id: 10, text: "哪一層動物正在睡覺，而房裡放著一個鬧鐘？", answer: "D" }
         ],
         "3-4": [
             { id: 1, text: "小土正用工具幫動物治療，而樓層的數字是單數。", answer: "B" },
@@ -342,7 +343,7 @@
             { id: 6, text: "這一層的動物數量是單數。", answer: "D" },
             { id: 7, text: "這一層的動物正在看書，不過不是坐在椅子上的。", answer: "C" },
             { id: 8, text: "這一層的動物正在用餐具進食，而這個樓層的號碼有「3」。", answer: "B" },
-            { id: 9, text: "哪一層是這裏第四高的？", answer: "C" },
+            { id: 9, text: "這一層的動物正在照鏡子，而樓層的數字是「3」的倍數。", answer: "B" },
             { id: 10, text: "這一層的動物正在慶祝生日。", answer: "A" }
         ],
         "5-6": [
@@ -359,24 +360,44 @@
         ]
     };
 
-    // --- 全局狀態變數 ---
     let currentGroup = "";
     let currentQuestions = [];
     let currentQIndex = 0;
     let score = 0;
-    let timeLeft = 15; // 統一改為 15 秒
+    let timeLeft = 15; 
     let timerInterval;
-    let studentData = { grade: '', class: '', num: '' };
+    let studentData = { grade: '', class: '', num: '', month: '', day: '' };
     let allLeaderboardData = [];
+    let studentDatabase = []; // 用於存放從 JSON 讀取的全校學生資料
     let isAnswering = false; 
+    let lbMode = 'group';
 
-    // --- 畫面切換控制 ---
+    // --- 載入 JSON 資料 (預先加載) ---
+    fetch('students.json')
+        .then(response => response.json())
+        .then(data => { studentDatabase = data; })
+        .catch(error => { console.warn("尚未載入 students.json 或檔案不存在", error); });
+
+    // --- 初始化生日選單 ---
+    window.onload = function() {
+        const monthSelect = document.getElementById('birth-month');
+        const daySelect = document.getElementById('birth-day');
+        
+        for(let i = 1; i <= 12; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.text = `${i} 月`; monthSelect.add(opt);
+        }
+        for(let i = 1; i <= 31; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.text = `${i} 日`; daySelect.add(opt);
+        }
+    };
+
     window.showScreen = function(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
     };
 
-    // --- 開啟登入頁面 ---
     window.openLogin = function(group) {
         currentGroup = group;
         document.getElementById('login-title').innerHTML = `<i class="fa-solid fa-door-open"></i> ${group}年級 入口`;
@@ -391,16 +412,15 @@
 
         options.forEach(grade => {
             const opt = document.createElement('option');
-            opt.value = grade;
-            opt.text = `${grade}年級`;
-            gradeSelect.appendChild(opt);
+            opt.value = grade; opt.text = `${grade}年級`; gradeSelect.appendChild(opt);
         });
 
         document.getElementById('student-num').value = ''; 
+        document.getElementById('birth-month').value = ''; 
+        document.getElementById('birth-day').value = ''; 
         showScreen('login-screen');
     };
 
-    // --- 洗牌演算法 ---
     function shuffle(array) {
         let arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -410,22 +430,25 @@
         return arr;
     }
 
-    // --- 開始作答 ---
     window.startQuiz = function() {
         studentData.grade = document.getElementById('grade-select').value;
         studentData.class = document.getElementById('class-select').value;
+        studentData.month = document.getElementById('birth-month').value;
+        studentData.day = document.getElementById('birth-day').value;
         
-        // 防呆：自動轉為整數，去除 01 的前導 0
         let rawNum = document.getElementById('student-num').value;
+        
         if (!rawNum || isNaN(rawNum)) {
-            alert("請輸入正確的學號 (1-36)！");
-            return;
+            alert("請輸入正確的學號 (1-36)！"); return;
         }
         studentData.num = parseInt(rawNum, 10).toString();
 
         if (studentData.num < 1 || studentData.num > 36) {
-            alert("學號必須介乎 1 到 36 之間！");
-            return;
+            alert("學號必須介乎 1 到 36 之間！"); return;
+        }
+        
+        if (!studentData.month || !studentData.day) {
+            alert("請選擇正確的生日月份與日期！"); return;
         }
 
         currentQuestions = shuffle(questionBanks[currentGroup]);
@@ -437,7 +460,6 @@
         loadQuestion();
     };
 
-    // --- 載入題目與選項洗牌 ---
     function loadQuestion() {
         if (currentQIndex >= currentQuestions.length) {
             endQuiz();
@@ -450,21 +472,11 @@
         document.getElementById('question-counter').innerHTML = `<i class="fa-solid fa-flag"></i> 第 ${currentQIndex + 1} / 10 關`;
         document.getElementById('question-text').innerText = q.text;
 
-        // 動態生成並洗牌選項 (高年級有 6 個 A-F 選項)
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.innerHTML = '';
         
-        let availableOptions = currentGroup === '5-6' 
-            ? ['A', 'B', 'C', 'D', 'E', 'F'] 
-            : ['A', 'B', 'C', 'D'];
-            
-        // 判斷套用哪種排版 (3欄或2欄)
-        if (currentGroup === '5-6') {
-            optionsContainer.classList.add('layout-6');
-        } else {
-            optionsContainer.classList.remove('layout-6');
-        }
-
+        let availableOptions = currentGroup === '5-6' ? ['A', 'B', 'C', 'D', 'E', 'F'] : ['A', 'B', 'C', 'D'];
+        optionsContainer.className = currentGroup === '5-6' ? 'options-grid layout-6' : 'options-grid';
         availableOptions = shuffle(availableOptions);
 
         availableOptions.forEach(opt => {
@@ -473,7 +485,6 @@
             btn.setAttribute('data-opt', opt);
             
             const img = document.createElement('img');
-            // 檔案路徑格式: P3-4_Q1_A.png
             img.src = `P${currentGroup}_Q${q.id}_${opt}.png`;
             img.alt = `選項 ${opt}`;
             
@@ -485,7 +496,6 @@
         startTimer();
     }
 
-    // --- 計時器 (15秒) ---
     function startTimer() {
         clearInterval(timerInterval);
         timeLeft = 15;
@@ -501,7 +511,7 @@
             const percentage = (timeLeft / 15) * 100;
             timerBar.style.width = `${percentage}%`;
 
-            if (timeLeft <= 5) { // 最後5秒警告
+            if (timeLeft <= 5) { 
                 timerBar.style.backgroundColor = 'var(--danger)';
                 timerIcon.style.animation = 'bounceIn 0.3s infinite alternate';
             }
@@ -513,7 +523,6 @@
         }, 100);
     }
 
-    // --- 檢查答案與視覺回饋 ---
     window.checkAnswer = function(selectedOpt, btnElement) {
         if (isAnswering) return; 
         isAnswering = true;
@@ -522,10 +531,8 @@
         const q = currentQuestions[currentQIndex];
         const overlay = document.getElementById('feedback-overlay');
         const content = document.getElementById('feedback-content');
-        
         let isCorrect = selectedOpt === q.answer;
 
-        // 處理按鈕樣式
         if (btnElement) {
             btnElement.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
             document.querySelectorAll('.option-btn').forEach(b => {
@@ -534,7 +541,6 @@
         }
 
         if (isCorrect) {
-            // 15秒制：時間加成算法
             const timeBonus = Math.floor((timeLeft / 15) * 500);
             const earned = 500 + Math.max(0, timeBonus);
             score += earned;
@@ -546,33 +552,77 @@
                 <div class="feedback-icon"><i class="fa-solid fa-circle-check"></i></div>
                 <div class="feedback-title">眼明手快！</div>
                 <div class="feedback-score">+${earned} 分</div>
+                <div style="width: 100%; height: 10px; background: #E8F5E9; border-radius: 5px; margin-top: 25px; overflow: hidden;">
+                    <div id="fb-timer-bar" style="height: 100%; width: 100%; background: var(--success);"></div>
+                </div>
             `;
+            
+            overlay.style.display = 'block';
+            overlay.style.animation = 'popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+            
+            setTimeout(() => {
+                const fbTimer = document.getElementById('fb-timer-bar');
+                if(fbTimer) { fbTimer.style.transition = 'width 1.5s linear'; fbTimer.style.width = '0%'; }
+            }, 50);
+
+            setTimeout(() => { overlay.style.display = 'none'; currentQIndex++; loadQuestion(); }, 1500);
+
         } else {
             overlay.className = 'feedback-wrong';
             let msg = selectedOpt === null ? "時間到了！" : "哎呀，答錯了！";
+            let correctImgSrc = `P${currentGroup}_Q${q.id}_${q.answer}.png`;
+            
             content.innerHTML = `
                 <div class="feedback-icon"><i class="fa-solid fa-circle-xmark"></i></div>
                 <div class="feedback-title">${msg}</div>
-                <div class="feedback-score" style="color:#757575; font-size:24px;">正確圖像是選項 ${q.answer}</div>
+                <div class="feedback-score" style="color:#757575; font-size:20px; margin-top:10px;">
+                    正確的圖像是：<br>
+                    <img src="${correctImgSrc}" alt="正確答案" style="width: 180px; max-width: 100%; border-radius: 12px; border: 4px solid #EEEEEE; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                </div>
+                <div style="width: 100%; height: 10px; background: #FFEBEE; border-radius: 5px; margin-top: 25px; overflow: hidden;">
+                    <div id="fb-timer-bar" style="height: 100%; width: 100%; background: var(--danger);"></div>
+                </div>
             `;
+            
+            overlay.style.display = 'block';
+            overlay.style.animation = 'popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+            
+            setTimeout(() => {
+                const fbTimer = document.getElementById('fb-timer-bar');
+                if(fbTimer) { fbTimer.style.transition = 'width 2.5s linear'; fbTimer.style.width = '0%'; }
+            }, 50);
+
+            setTimeout(() => { overlay.style.display = 'none'; currentQIndex++; loadQuestion(); }, 2500);
         }
-
-        overlay.style.display = 'block';
-        overlay.style.animation = 'popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
-
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            currentQIndex++;
-            loadQuestion();
-        }, 1800);
     };
 
-    // --- 結束測驗與上傳成績 ---
     async function endQuiz() {
         showScreen('result-screen');
         document.getElementById('final-score').innerText = `總分: ${score}`;
-        
         const statusText = document.getElementById('upload-status');
+        
+        // --- 核對生日日期 ---
+        // 尋找符合該 年級、班別、學號 的紀錄
+        const studentRecord = studentDatabase.find(s => 
+            String(s.grade) === studentData.grade && 
+            String(s.class) === studentData.class && 
+            String(s.num) === studentData.num
+        );
+
+        let isBirthdayCorrect = false;
+        // 如果有這名學生，且輸入的月、日相符，才算正確
+        if (studentRecord && String(studentRecord.month) === studentData.month && String(studentRecord.day) === studentData.day) {
+            isBirthdayCorrect = true;
+        }
+
+        // 如果資料庫為空 (代表還沒放 JSON)，為了讓你方便測試，這段你可以自行決定是否要防呆。
+        // 這裡設定：如果有讀到資料且生日錯誤，就阻擋。
+        if (studentDatabase.length > 0 && !isBirthdayCorrect) {
+            statusText.innerHTML = "<i class='fa-solid fa-circle-xmark'></i> 由於生日日期輸入錯誤，這次的分數不會列入排行榜。";
+            statusText.style.color = "#F44336"; // 紅色
+            return; // 停止執行，不將資料上傳 Firebase
+        }
+
         statusText.innerText = "正在傳送成績至指揮中心...";
         statusText.style.color = "#757575";
 
@@ -603,64 +653,102 @@
         }
     }
 
-    // --- 排行榜功能 ---
+    // --- 以下為排行榜的程式碼 (保持原樣) ---
     window.openLeaderboard = async function() {
         showScreen('leaderboard-screen');
-        document.getElementById('leaderboard-body').innerHTML = "<tr><td colspan='5' style='padding:30px;'>資料讀取中 <i class='fa-solid fa-spinner fa-spin'></i></td></tr>";
+        document.getElementById('lb-content').innerHTML = "<div style='text-align:center; padding:30px; font-size:18px;'>資料讀取中 <i class='fa-solid fa-spinner fa-spin'></i></div>";
         
         try {
             const querySnapshot = await getDocs(collection(db, "quiz_scores"));
             allLeaderboardData = [];
-            querySnapshot.forEach((doc) => {
-                allLeaderboardData.push(doc.data());
-            });
-            renderLeaderboard();
+            querySnapshot.forEach((doc) => { allLeaderboardData.push(doc.data()); });
+            switchLeaderboardMode('group');
         } catch (error) {
             console.error("排行榜載入失敗:", error);
-            document.getElementById('leaderboard-body').innerHTML = "<tr><td colspan='5'>無法載入排行榜，請檢查網路連線。</td></tr>";
+            document.getElementById('lb-content').innerHTML = "<div style='text-align:center; padding:30px; color:#F44336;'>無法載入排行榜，請檢查網路連線。</div>";
+        }
+    };
+
+    window.switchLeaderboardMode = function(mode) {
+        lbMode = mode;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`btn-tab-${mode}`).classList.add('active');
+
+        const filterBar = document.getElementById('lb-filters');
+        
+        if (mode === 'group') {
+            filterBar.style.display = 'none';
+            renderLeaderboard();
+        } else if (mode === 'grade') {
+            filterBar.style.display = 'flex';
+            filterBar.innerHTML = `
+                <select id="lb-grade-select" onchange="renderLeaderboard()">
+                    <option value="1">1 年級</option><option value="2">2 年級</option>
+                    <option value="3">3 年級</option><option value="4">4 年級</option>
+                    <option value="5">5 年級</option><option value="6">6 年級</option>
+                </select>
+            `;
+            renderLeaderboard();
+        } else if (mode === 'class') {
+            filterBar.style.display = 'flex';
+            filterBar.innerHTML = `
+                <select id="lb-grade-select" onchange="renderLeaderboard()">
+                    <option value="1">1 年級</option><option value="2">2 年級</option>
+                    <option value="3">3 年級</option><option value="4">4 年級</option>
+                    <option value="5">5 年級</option><option value="6">6 年級</option>
+                </select>
+                <select id="lb-class-select" onchange="renderLeaderboard()">
+                    <option value="A">A 班</option><option value="B">B 班</option>
+                    <option value="C">C 班</option><option value="D">D 班</option><option value="E">E 班</option>
+                </select>
+            `;
+            renderLeaderboard();
         }
     };
 
     window.renderLeaderboard = function() {
-        const filterGroup = document.getElementById('filter-group').value;
-        const filterGrade = document.getElementById('filter-grade').value;
-        const filterClass = document.getElementById('filter-class').value;
+        const container = document.getElementById('lb-content');
+        container.innerHTML = ''; 
 
-        let filtered = allLeaderboardData.filter(data => {
-            let matchGroup = (filterGroup === 'ALL' || data.group === filterGroup);
-            let matchGrade = (filterGrade === 'ALL' || data.grade === filterGrade);
-            let matchClass = (filterClass === 'ALL' || data.class === filterClass);
-            return matchGroup && matchGrade && matchClass;
-        });
-
-        filtered.sort((a, b) => b.score - a.score);
-
-        const tbody = document.getElementById('leaderboard-body');
-        tbody.innerHTML = '';
-
-        if(filtered.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='5' style='color:#9E9E9E; padding:30px;'>目前還沒有資料喔！</td></tr>";
-            return;
+        if (lbMode === 'group') {
+            const groups = ['1-2', '3-4', '5-6'];
+            const titles = ['一、二年級', '三、四年級', '五、六年級'];
+            groups.forEach((group, index) => {
+                let filtered = allLeaderboardData.filter(d => d.group === group);
+                filtered.sort((a, b) => b.score - a.score);
+                filtered = filtered.slice(0, 10); 
+                container.innerHTML += `<div class="lb-group-title"><i class="fa-solid fa-ranking-star"></i> ${titles[index]} (首 10 名)</div>`;
+                container.innerHTML += buildTableHTML(filtered);
+            });
+        } else if (lbMode === 'grade') {
+            const selectedGrade = document.getElementById('lb-grade-select').value;
+            let filtered = allLeaderboardData.filter(d => d.grade === selectedGrade);
+            filtered.sort((a, b) => b.score - a.score);
+            container.innerHTML = buildTableHTML(filtered);
+        } else if (lbMode === 'class') {
+            const selectedGrade = document.getElementById('lb-grade-select').value;
+            const selectedClass = document.getElementById('lb-class-select').value;
+            let filtered = allLeaderboardData.filter(d => d.grade === selectedGrade && d.class === selectedClass);
+            filtered.sort((a, b) => b.score - a.score);
+            container.innerHTML = buildTableHTML(filtered);
         }
+    };
 
-        filtered.forEach((data, index) => {
+    function buildTableHTML(dataArray) {
+        if (dataArray.length === 0) return `<div style="text-align:center; padding: 25px; color:#9E9E9E; font-weight:700;">目前還沒有同學上榜喔！</div>`;
+        
+        let html = `<table><thead><tr><th>排名</th><th>年級</th><th>班別</th><th>學號</th><th>分數</th></tr></thead><tbody>`;
+        dataArray.forEach((data, index) => {
             const rank = index + 1;
             let rankIcon = `<b>${rank}</b>`;
             if(rank === 1) rankIcon = `<i class="fa-solid fa-medal rank-icon rank-1"></i>`;
             if(rank === 2) rankIcon = `<i class="fa-solid fa-medal rank-icon rank-2"></i>`;
             if(rank === 3) rankIcon = `<i class="fa-solid fa-medal rank-icon rank-3"></i>`;
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${rankIcon}</td>
-                <td>${data.grade} 年級</td>
-                <td>${data.class} 班</td>
-                <td>${data.studentNum} 號</td>
-                <td style="color:var(--primary-dark); font-weight:900; font-family:'Fredoka',sans-serif; font-size:22px;">${data.score}</td>
-            `;
-            tbody.appendChild(tr);
+            html += `<tr><td>${rankIcon}</td><td>${data.grade} 年級</td><td>${data.class} 班</td><td>${data.studentNum} 號</td><td style="color:var(--primary-dark); font-weight:900; font-family:'Fredoka',sans-serif; font-size:22px;">${data.score}</td></tr>`;
         });
-    };
+        html += `</tbody></table>`;
+        return html;
+    }
 </script>
 
 </body>
