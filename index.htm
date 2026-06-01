@@ -3,232 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>常識問答比賽 | 互動挑戰系統</title>
+    <title>100層樓眼明手快大挑戰</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-hover: #3a0ca3;
-            --secondary: #4cc9f0;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --warning: #f1c40f;
-            --background: #f8f9fa;
+            --primary: #FF9800;       
+            --primary-dark: #F57C00;
+            --secondary: #00BCD4;     
+            --success: #4CAF50;       
+            --danger: #FF5252;        
+            --bg-top: #4facfe;        
+            --bg-bottom: #00f2fe;     
             --surface: #ffffff;
-            --text-main: #2b2d42;
-            --text-light: #8d99ae;
+            --text-main: #37474F;
+            --border-radius: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-main);
-            padding: 20px;
+            padding: 15px;
+            overflow-x: hidden;
         }
 
-        /* 主容器：限制最大寬度並加入玻璃擬物化風格 */
+        /* 遊戲主容器 */
         .app-container {
             width: 100%;
             max-width: 900px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: var(--surface);
+            border: 8px solid #FFF9C4;
+            border-radius: 30px;
+            box-shadow: 0 20px 0px rgba(0,0,0,0.1), inset 0 0 20px rgba(0,0,0,0.05);
             overflow: hidden;
             position: relative;
-            min-height: 600px;
+            min-height: 650px;
         }
 
         /* 頁面切換控制 */
-        .screen {
-            display: none;
-            padding: 40px;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .screen.active { display: block; }
+        .screen { display: none; padding: 40px; }
+        .screen.active { display: block; animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* 共用標題 */
         .title {
             text-align: center;
-            font-size: 32px;
+            font-size: 38px;
             font-weight: 900;
-            color: var(--primary);
+            color: var(--primary-dark);
             margin-bottom: 30px;
-            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px #FFF9C4, 4px 4px 0px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
         }
+        .title i { color: var(--secondary); }
 
         /* ===== 主選單 ===== */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 25px;
             margin-top: 20px;
         }
         .menu-card {
-            background: var(--surface);
-            border: 2px solid #eef2f6;
-            border-radius: 16px;
-            padding: 40px 20px;
+            background: #FAFAFA;
+            border: 4px solid #E0E0E0;
+            border-radius: var(--border-radius);
+            padding: 30px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            position: relative;
         }
         .menu-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             border-color: var(--secondary);
-            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.2);
+            background: #E0F7FA;
+            box-shadow: 0 10px 0px rgba(0, 188, 212, 0.2);
         }
-        .menu-card i { font-size: 48px; color: var(--primary); margin-bottom: 15px; }
-        .menu-card h3 { font-size: 22px; font-weight: 700; }
+        .menu-card:active { transform: translateY(0); box-shadow: 0 0px 0px transparent; }
+        .menu-card i { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
+        .menu-card h3 { font-size: 26px; font-weight: 900; }
 
-        /* ===== 登入與表單 ===== */
-        .form-container { max-width: 400px; margin: 0 auto; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--text-light); }
+        /* ===== 表單與按鈕 ===== */
+        .form-container { max-width: 450px; margin: 0 auto; background: #FAFAFA; padding: 30px; border-radius: 20px; border: 4px solid #EEEEEE; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 900; font-size: 18px; color: #546E7A; }
         .form-control {
-            width: 100%; padding: 12px 16px; font-size: 16px;
-            border: 2px solid #eef2f6; border-radius: 12px;
-            transition: border-color 0.3s;
-            font-family: inherit;
+            width: 100%; padding: 15px; font-size: 18px; font-weight: 700;
+            border: 3px solid #CFD8DC; border-radius: 15px; outline: none;
+            transition: 0.3s; background: #fff;
         }
-        .form-control:focus { outline: none; border-color: var(--primary); }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 5px rgba(255, 152, 0, 0.2); }
         
         .btn {
-            width: 100%; padding: 15px; font-size: 18px; font-weight: 700;
-            border: none; border-radius: 12px; cursor: pointer; transition: 0.3s;
+            width: 100%; padding: 16px; font-size: 22px; font-weight: 900;
+            border: none; border-radius: 15px; cursor: pointer; transition: 0.2s;
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
         }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3); }
-        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
-        .btn-outline { background: transparent; color: var(--text-light); border: 2px solid #eef2f6; margin-top: 15px;}
-        .btn-outline:hover { background: #f8f9fa; color: var(--text-main); }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 0px var(--primary-dark); margin-top: 10px; }
+        .btn-primary:active { transform: translateY(8px); box-shadow: 0 0px 0px var(--primary-dark); }
+        .btn-outline { background: #ECEFF1; color: #455A64; margin-top: 20px; box-shadow: 0 6px 0px #CFD8DC; }
+        .btn-outline:active { transform: translateY(6px); box-shadow: 0 0px 0px transparent; }
 
         /* ===== 測驗介面 ===== */
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .badge { background: #eef2f6; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 16px; }
-        .badge.score-badge { background: var(--warning); color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+        .badge { background: #F3E5F5; color: #8E24AA; padding: 10px 20px; border-radius: 15px; font-weight: 900; font-size: 18px; border: 3px solid #E1BEE7; }
+        .badge.score-badge { background: #FFF8E1; color: #FFA000; border-color: #FFECB3; font-size: 22px; font-family: 'Fredoka', sans-serif; }
         
-        .timer-container { height: 16px; background: #eef2f6; border-radius: 8px; overflow: hidden; margin-bottom: 30px; }
+        .timer-wrapper { position: relative; margin-bottom: 25px; }
+        .timer-icon { position: absolute; left: -10px; top: -12px; font-size: 35px; z-index: 2; }
+        .timer-container { height: 24px; background: #EEEEEE; border-radius: 12px; overflow: hidden; border: 3px solid #E0E0E0; margin-left: 15px; }
         .timer-bar { height: 100%; width: 100%; background: var(--success); transition: width 0.1s linear, background-color 0.3s; }
 
-        .question-text { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 30px; min-height: 70px;}
-        
-        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .option-btn {
-            background: var(--surface); border: 4px solid #eef2f6; border-radius: 16px;
-            padding: 5px; cursor: pointer; transition: all 0.2s; overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        .question-text { 
+            font-size: 26px; font-weight: 900; text-align: center; 
+            margin-bottom: 30px; min-height: 80px; line-height: 1.4;
+            background: #E3F2FD; padding: 20px; border-radius: 20px; border: 3px solid #BBDEFB;
         }
-        .option-btn:hover { border-color: var(--secondary); transform: scale(1.02); }
-        .option-btn img { width: 100%; border-radius: 8px; display: block; aspect-ratio: 16/9; object-fit: cover; }
+        
+        /* 選項動態排版 (支援 4 或 6 選項) */
+        .options-grid { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; position: relative;
+        }
+        .option-btn {
+            background: var(--surface); border: 5px solid #EEEEEE; border-radius: 20px;
+            padding: 8px; cursor: pointer; transition: all 0.1s;
+            box-shadow: 0 8px 0px #EEEEEE; flex: 1 1 calc(50% - 15px); max-width: calc(50% - 15px);
+        }
+        /* 6選項時切換為 3排2列 */
+        .options-grid.layout-6 .option-btn { flex: 1 1 calc(33.333% - 15px); max-width: calc(33.333% - 15px); }
+        .option-btn:active { transform: translateY(8px); box-shadow: 0 0px 0px transparent; }
+        .option-btn img { width: 100%; border-radius: 12px; display: block; aspect-ratio: 16/9; object-fit: cover; }
+        
+        .option-btn.selected-correct { border-color: var(--success) !important; box-shadow: 0 8px 0px #388E3C !important; background: #E8F5E9; }
+        .option-btn.selected-wrong { border-color: var(--danger) !important; box-shadow: 0 8px 0px #D32F2F !important; background: #FFEBEE; }
 
-        /* ===== 排行榜 ===== */
-        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; }
-        .filter-bar select { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-        .table-container { max-height: 400px; overflow-y: auto; border-radius: 12px; border: 1px solid #eef2f6; }
-        table { width: 100%; border-collapse: collapse; text-align: center; }
-        th { background: var(--primary); color: white; padding: 12px; position: sticky; top: 0; }
-        td { padding: 12px; border-bottom: 1px solid #eef2f6; }
-        tr:nth-child(even) { background: #f8f9fa; }
-        .rank-icon { font-size: 20px; }
-        .rank-1 { color: #f1c40f; } .rank-2 { color: #bdc3c7; } .rank-3 { color: #cd7f32; }
+        /* ===== 回饋特效覆蓋層 ===== */
+        #feedback-overlay {
+            display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 100; text-align: center; padding: 30px 50px; border-radius: 25px;
+            background: rgba(255, 255, 255, 0.95); box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 6px solid; width: 80%; max-width: 500px;
+        }
+        .feedback-correct { border-color: var(--success); color: var(--success); }
+        .feedback-wrong { border-color: var(--danger); color: var(--danger); }
+        .feedback-icon { font-size: 80px; margin-bottom: 10px; }
+        .feedback-title { font-size: 36px; font-weight: 900; margin-bottom: 5px; }
+        .feedback-score { font-size: 28px; font-weight: 900; font-family: 'Fredoka', sans-serif; color: #FFA000; }
+
+        @keyframes popUp {
+            0% { transform: translate(-50%, -40%) scale(0.8); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* ===== 排行榜設計 ===== */
+        .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; background: #FAFAFA; padding: 15px; border-radius: 20px; border: 3px solid #EEEEEE;}
+        .filter-bar select { flex: 1; padding: 12px; border-radius: 12px; border: 3px solid #CFD8DC; font-weight: 700; color: #455A64; outline: none; transition: 0.2s;}
+        .filter-bar select:focus { border-color: var(--secondary); }
+        .table-container { max-height: 400px; overflow-y: auto; border-radius: 15px; border: 3px solid #EEEEEE; background: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.02);}
+        table { width: 100%; border-collapse: collapse; text-align: center; font-size: 18px; }
+        th { background: #E1F5FE; color: #0277BD; padding: 18px 10px; position: sticky; top: 0; font-weight: 900; letter-spacing: 1px; box-shadow: 0 2px 0px #B3E5FC;}
+        td { padding: 15px 10px; border-bottom: 2px solid #F5F5F5; font-weight: 700; color: #37474F;}
+        tr:nth-child(even) { background: #FAFAFA; }
+        tr:hover { background: #F1F8E9; }
+        .rank-icon { font-size: 24px; }
+        .rank-1 { color: #FFC107; text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-size: 32px; } 
+        .rank-2 { color: #9E9E9E; font-size: 28px; } 
+        .rank-3 { color: #FF7043; font-size: 26px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <div id="menu-screen" class="screen active">
-        <h1 class="title"><i class="fa-solid fa-graduation-cap"></i> 常識問答挑戰賽</h1>
+        <h1 class="title"><i class="fa-solid fa-building"></i> 100層樓眼明手快大挑戰</h1>
         <div class="menu-grid">
             <div class="menu-card" onclick="openLogin('1-2')">
-                <i class="fa-solid fa-seedling"></i>
+                <i class="fa-solid fa-gamepad" style="color:#4CAF50;"></i>
                 <h3>一、二年級</h3>
-                <p style="color:var(--text-light);font-size:14px;margin-top:10px;">初級挑戰</p>
+                <p style="color:#757575;font-weight:700;margin-top:10px;">初級探險</p>
             </div>
             <div class="menu-card" onclick="openLogin('3-4')">
-                <i class="fa-solid fa-tree"></i>
+                <i class="fa-solid fa-puzzle-piece" style="color:#FF9800;"></i>
                 <h3>三、四年級</h3>
-                <p style="color:var(--text-light);font-size:14px;margin-top:10px;">中級挑戰</p>
+                <p style="color:#757575;font-weight:700;margin-top:10px;">中級挑戰</p>
             </div>
             <div class="menu-card" onclick="openLogin('5-6')">
-                <i class="fa-solid fa-mountain"></i>
+                <i class="fa-solid fa-rocket" style="color:#E91E63;"></i>
                 <h3>五、六年級</h3>
-                <p style="color:var(--text-light);font-size:14px;margin-top:10px;">高級挑戰</p>
+                <p style="color:#757575;font-weight:700;margin-top:10px;">終極任務</p>
             </div>
             <div class="menu-card" onclick="openLeaderboard()">
-                <i class="fa-solid fa-trophy"></i>
+                <i class="fa-solid fa-trophy" style="color:#FFC107;"></i>
                 <h3>排行榜</h3>
-                <p style="color:var(--text-light);font-size:14px;margin-top:10px;">查看最高榮譽</p>
+                <p style="color:#757575;font-weight:700;margin-top:10px;">查看最強王者</p>
             </div>
         </div>
     </div>
 
     <div id="login-screen" class="screen">
-        <h1 class="title" id="login-title">準備作答</h1>
+        <h1 class="title" id="login-title">準備進入大樓</h1>
         <div class="form-container">
             <div class="form-group">
-                <label>年級：</label>
+                <label><i class="fa-solid fa-layer-group"></i> 年級：</label>
                 <select id="grade-select" class="form-control"></select>
             </div>
             <div class="form-group">
-                <label>班別：</label>
+                <label><i class="fa-solid fa-users"></i> 班別：</label>
                 <select id="class-select" class="form-control">
-                    <option value="A">A班</option>
-                    <option value="B">B班</option>
-                    <option value="C">C班</option>
-                    <option value="D">D班</option>
-                    <option value="E">E班</option>
+                    <option value="A">A班</option><option value="B">B班</option>
+                    <option value="C">C班</option><option value="D">D班</option><option value="E">E班</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>學號 (1-36)：</label>
-                <input type="number" id="student-num" class="form-control" min="1" max="36" placeholder="請輸入學號" required>
+                <label><i class="fa-solid fa-id-badge"></i> 學號 (1-36)：</label>
+                <input type="number" id="student-num" class="form-control" min="1" max="36" placeholder="請輸入學號 (如: 1 或 01)" required>
             </div>
-            <button class="btn btn-primary" onclick="startQuiz()"><i class="fa-solid fa-play"></i> 開始作答</button>
-            <button class="btn btn-outline" onclick="showScreen('menu-screen')"><i class="fa-solid fa-arrow-left"></i> 返回主選單</button>
+            <button class="btn btn-primary" onclick="startQuiz()"><i class="fa-solid fa-play"></i> 進入挑戰！</button>
+            <button class="btn btn-outline" onclick="showScreen('menu-screen')"><i class="fa-solid fa-arrow-left"></i> 回到大廳</button>
         </div>
     </div>
 
     <div id="quiz-screen" class="screen">
         <div class="top-bar">
-            <div class="badge" id="question-counter">第 1 / 10 題</div>
+            <div class="badge" id="question-counter"><i class="fa-solid fa-flag"></i> 第 1 / 10 關</div>
             <div class="badge score-badge" id="score-display"><i class="fa-solid fa-star"></i> 0 分</div>
         </div>
-        <div class="timer-container"><div class="timer-bar" id="timer-bar"></div></div>
+        
+        <div class="timer-wrapper">
+            <div class="timer-icon" id="timer-icon-anim">⏱️</div>
+            <div class="timer-container"><div class="timer-bar" id="timer-bar"></div></div>
+        </div>
         
         <div class="question-text" id="question-text">題目載入中...</div>
         
-        <div class="options-grid">
-            <button class="option-btn" data-opt="A"><img id="img-A" src="" alt="A"></button>
-            <button class="option-btn" data-opt="B"><img id="img-B" src="" alt="B"></button>
-            <button class="option-btn" data-opt="C"><img id="img-C" src="" alt="C"></button>
-            <button class="option-btn" data-opt="D"><img id="img-D" src="" alt="D"></button>
-        </div>
-        <div style="text-align:center; margin-top: 20px;">
-             <button class="btn btn-outline" style="width: auto; padding: 10px 20px;" onclick="abortQuiz()">放棄作答</button>
-        </div>
+        <div class="options-grid" id="options-container"></div>
+        
+        <div id="feedback-overlay"><div id="feedback-content"></div></div>
     </div>
 
     <div id="result-screen" class="screen" style="text-align: center;">
-        <i class="fa-solid fa-medal" style="font-size: 80px; color: var(--warning); margin-bottom: 20px;"></i>
+        <i class="fa-solid fa-crown" style="font-size: 90px; color: #FFC107; margin-bottom: 20px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));"></i>
         <h1 class="title">挑戰完成！</h1>
-        <h2 style="font-size: 36px; margin-bottom: 20px; font-family: 'Nunito', sans-serif;" id="final-score">總分: 0</h2>
-        <p id="upload-status" style="font-size: 18px; font-weight: 700; margin-bottom: 30px; min-height: 27px;"></p>
-        <div class="form-container">
-            <button class="btn btn-primary" onclick="showScreen('menu-screen')"><i class="fa-solid fa-house"></i> 返回首頁</button>
+        <div style="background: #FFF8E1; border: 4px solid #FFE082; padding: 20px; border-radius: 20px; display: inline-block; margin-bottom: 25px;">
+            <h2 style="font-size: 42px; font-family: 'Fredoka', sans-serif; color: #F57C00;" id="final-score">總分: 0</h2>
+        </div>
+        <p id="upload-status" style="font-size: 20px; font-weight: 900; margin-bottom: 30px; min-height: 30px;"></p>
+        <div class="form-container" style="background: transparent; border: none; padding: 0;">
+            <button class="btn btn-primary" onclick="showScreen('menu-screen')"><i class="fa-solid fa-house"></i> 返回大廳</button>
             <button class="btn btn-outline" onclick="openLeaderboard()"><i class="fa-solid fa-list-ol"></i> 查看排行榜</button>
         </div>
     </div>
@@ -264,7 +298,7 @@
             </table>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn btn-outline" style="width: auto; padding: 10px 30px;" onclick="showScreen('menu-screen')"><i class="fa-solid fa-arrow-left"></i> 返回</button>
+            <button class="btn btn-outline" style="width: auto; padding: 12px 40px;" onclick="showScreen('menu-screen')"><i class="fa-solid fa-arrow-left"></i> 返回主選單</button>
         </div>
     </div>
 </div>
@@ -287,7 +321,18 @@
 
     // --- 題庫資料 ---
     const questionBanks = {
-        "1-2": [], // 待提供
+        "1-2": [
+            { id: 1, text: "小土正用工具幫動物治療，而樓層的數字是單數。", answer: "B" },
+            { id: 2, text: "這一層的動物正在一起工作。", answer: "D" },
+            { id: 3, text: "這一層的動物正在洗澡，而這一層有鏡子。", answer: "C" },
+            { id: 4, text: "這一層的動物正在煮飯，而這個樓層的號碼有「4」。", answer: "A" },
+            { id: 5, text: "哪一層是這裏第三高的？", answer: "A" },
+            { id: 6, text: "這一層的動物數量是單數。", answer: "B" },
+            { id: 7, text: "這一層的動物正在看書，不過不是坐在椅子上的。", answer: "B" },
+            { id: 8, text: "這一層的動物正在用餐具進食，而樓層的數字是雙數。", answer: "D" },
+            { id: 9, text: "這一層的動物正在慶祝生日。", answer: "C" },
+            { id: 10, text: "哪一層是這裏第二高的？", answer: "C" }
+        ],
         "3-4": [
             { id: 1, text: "小土正用工具幫動物治療，而樓層的數字是單數。", answer: "B" },
             { id: 2, text: "這一層的動物正在一起看電視", answer: "D" },
@@ -300,7 +345,18 @@
             { id: 9, text: "哪一層是這裏第四高的？", answer: "C" },
             { id: 10, text: "這一層的動物正在慶祝生日。", answer: "A" }
         ],
-        "5-6": [] // 待提供
+        "5-6": [
+            { id: 1, text: "這一層的動物正在照顧植物，而這一層樓有一盞燈。", answer: "B" },
+            { id: 2, text: "這一層的動物坐在椅子上，而且身上顏色相間。", answer: "A" },
+            { id: 3, text: "這一層的動物正在洗澡，而這一層有鏡子。", answer: "F" },
+            { id: 4, text: "這一層的動物正在煮飯，而樓層的數字是「8」的倍數。", answer: "E" },
+            { id: 5, text: "哪一層是這裏第四高的？", answer: "B" },
+            { id: 6, text: "這一層的動物數量是單數。", answer: "B" },
+            { id: 7, text: "這一層的動物正在看書，不過不是坐在椅子上的。", answer: "D" },
+            { id: 8, text: "這一層的動物正在用餐具進食，而樓層的數字是雙數。", answer: "D" },
+            { id: 9, text: "哪一層是這裏第三高的？", answer: "B" },
+            { id: 10, text: "這一層的動物正在玩遊戲，而樓層的數字是「5」的倍數。", answer: "A" }
+        ]
     };
 
     // --- 全局狀態變數 ---
@@ -308,10 +364,11 @@
     let currentQuestions = [];
     let currentQIndex = 0;
     let score = 0;
-    let timeLeft = 10;
+    let timeLeft = 15; // 統一改為 15 秒
     let timerInterval;
     let studentData = { grade: '', class: '', num: '' };
-    let allLeaderboardData = []; // 緩存排行榜資料
+    let allLeaderboardData = [];
+    let isAnswering = false; 
 
     // --- 畫面切換控制 ---
     window.showScreen = function(screenId) {
@@ -319,13 +376,13 @@
         document.getElementById(screenId).classList.add('active');
     };
 
-    // --- 開啟登入頁面並動態生成年級選項 ---
+    // --- 開啟登入頁面 ---
     window.openLogin = function(group) {
         currentGroup = group;
-        document.getElementById('login-title').innerHTML = `<i class="fa-solid fa-user-astronaut"></i> ${group}年級 登入`;
+        document.getElementById('login-title').innerHTML = `<i class="fa-solid fa-door-open"></i> ${group}年級 入口`;
         
         const gradeSelect = document.getElementById('grade-select');
-        gradeSelect.innerHTML = ''; // 清空選項
+        gradeSelect.innerHTML = ''; 
 
         let options = [];
         if(group === '1-2') options = [1, 2];
@@ -339,7 +396,7 @@
             gradeSelect.appendChild(opt);
         });
 
-        document.getElementById('student-num').value = ''; // 清空學號
+        document.getElementById('student-num').value = ''; 
         showScreen('login-screen');
     };
 
@@ -357,15 +414,17 @@
     window.startQuiz = function() {
         studentData.grade = document.getElementById('grade-select').value;
         studentData.class = document.getElementById('class-select').value;
-        studentData.num = document.getElementById('student-num').value;
-
-        if (!studentData.num || studentData.num < 1 || studentData.num > 36) {
+        
+        // 防呆：自動轉為整數，去除 01 的前導 0
+        let rawNum = document.getElementById('student-num').value;
+        if (!rawNum || isNaN(rawNum)) {
             alert("請輸入正確的學號 (1-36)！");
             return;
         }
+        studentData.num = parseInt(rawNum, 10).toString();
 
-        if (questionBanks[currentGroup].length === 0) {
-            alert(`目前 ${currentGroup} 年級的題目尚未開放！`);
+        if (studentData.num < 1 || studentData.num > 36) {
+            alert("學號必須介乎 1 到 36 之間！");
             return;
         }
 
@@ -378,86 +437,135 @@
         loadQuestion();
     };
 
-    // --- 放棄作答 ---
-    window.abortQuiz = function() {
-        if(confirm("確定要放棄目前的測驗嗎？成績將不會被記錄。")) {
-            clearInterval(timerInterval);
-            showScreen('menu-screen');
-        }
-    };
-
-    // --- 載入題目 ---
+    // --- 載入題目與選項洗牌 ---
     function loadQuestion() {
         if (currentQIndex >= currentQuestions.length) {
             endQuiz();
             return;
         }
 
+        isAnswering = false; 
         const q = currentQuestions[currentQIndex];
-        document.getElementById('question-counter').innerText = `第 ${currentQIndex + 1} / ${currentQuestions.length} 題`;
         
-        // 加入淡入特效
-        const qText = document.getElementById('question-text');
-        qText.style.animation = 'none';
-        qText.offsetHeight; /* 觸發重繪 */
-        qText.style.animation = 'fadeIn 0.3s ease-out';
-        qText.innerText = q.text;
+        document.getElementById('question-counter').innerHTML = `<i class="fa-solid fa-flag"></i> 第 ${currentQIndex + 1} / 10 關`;
+        document.getElementById('question-text').innerText = q.text;
 
-        // 圖片檔名邏輯: P3-4_Q1_A.png (使用群組名稱作為 Prefix 配合你先前提供的格式)
-        const prefix = `P${currentGroup}_Q${q.id}`;
-        document.getElementById('img-A').src = `${prefix}_A.png`;
-        document.getElementById('img-B').src = `${prefix}_B.png`;
-        document.getElementById('img-C').src = `${prefix}_C.png`;
-        document.getElementById('img-D').src = `${prefix}_D.png`;
+        // 動態生成並洗牌選項 (高年級有 6 個 A-F 選項)
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        
+        let availableOptions = currentGroup === '5-6' 
+            ? ['A', 'B', 'C', 'D', 'E', 'F'] 
+            : ['A', 'B', 'C', 'D'];
+            
+        // 判斷套用哪種排版 (3欄或2欄)
+        if (currentGroup === '5-6') {
+            optionsContainer.classList.add('layout-6');
+        } else {
+            optionsContainer.classList.remove('layout-6');
+        }
+
+        availableOptions = shuffle(availableOptions);
+
+        availableOptions.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.setAttribute('data-opt', opt);
+            
+            const img = document.createElement('img');
+            // 檔案路徑格式: P3-4_Q1_A.png
+            img.src = `P${currentGroup}_Q${q.id}_${opt}.png`;
+            img.alt = `選項 ${opt}`;
+            
+            btn.appendChild(img);
+            btn.onclick = function() { checkAnswer(opt, this); };
+            optionsContainer.appendChild(btn);
+        });
 
         startTimer();
     }
 
-    // --- 計時器 ---
+    // --- 計時器 (15秒) ---
     function startTimer() {
         clearInterval(timerInterval);
-        timeLeft = 10;
+        timeLeft = 15;
         const timerBar = document.getElementById('timer-bar');
+        const timerIcon = document.getElementById('timer-icon-anim');
+        
         timerBar.style.width = '100%';
         timerBar.style.backgroundColor = 'var(--success)';
+        timerIcon.style.animation = 'none';
 
         timerInterval = setInterval(() => {
             timeLeft -= 0.1;
-            const percentage = (timeLeft / 10) * 100;
+            const percentage = (timeLeft / 15) * 100;
             timerBar.style.width = `${percentage}%`;
 
-            if (timeLeft <= 3) {
-                timerBar.style.backgroundColor = 'var(--danger)'; // 最後3秒變紅
+            if (timeLeft <= 5) { // 最後5秒警告
+                timerBar.style.backgroundColor = 'var(--danger)';
+                timerIcon.style.animation = 'bounceIn 0.3s infinite alternate';
             }
 
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                checkAnswer(null); // 超時
+                checkAnswer(null, null); 
             }
         }, 100);
     }
 
-    // --- 檢查答案 ---
-    window.checkAnswer = function(selectedOpt) {
+    // --- 檢查答案與視覺回饋 ---
+    window.checkAnswer = function(selectedOpt, btnElement) {
+        if (isAnswering) return; 
+        isAnswering = true;
         clearInterval(timerInterval);
+        
         const q = currentQuestions[currentQIndex];
+        const overlay = document.getElementById('feedback-overlay');
+        const content = document.getElementById('feedback-content');
+        
+        let isCorrect = selectedOpt === q.answer;
 
-        if (selectedOpt === q.answer) {
-            const timeBonus = Math.floor((timeLeft / 10) * 500);
-            score += (500 + Math.max(0, timeBonus)); 
-            document.getElementById('score-display').innerHTML = `<i class="fa-solid fa-star"></i> ${score} 分`;
+        // 處理按鈕樣式
+        if (btnElement) {
+            btnElement.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+            document.querySelectorAll('.option-btn').forEach(b => {
+                if(b !== btnElement) b.style.opacity = '0.5';
+            });
         }
 
-        currentQIndex++;
-        setTimeout(loadQuestion, 200); // 微停頓讓玩家感受到點擊
-    };
+        if (isCorrect) {
+            // 15秒制：時間加成算法
+            const timeBonus = Math.floor((timeLeft / 15) * 500);
+            const earned = 500 + Math.max(0, timeBonus);
+            score += earned;
+            
+            document.getElementById('score-display').innerHTML = `<i class="fa-solid fa-star"></i> ${score} 分`;
+            
+            overlay.className = 'feedback-correct';
+            content.innerHTML = `
+                <div class="feedback-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="feedback-title">眼明手快！</div>
+                <div class="feedback-score">+${earned} 分</div>
+            `;
+        } else {
+            overlay.className = 'feedback-wrong';
+            let msg = selectedOpt === null ? "時間到了！" : "哎呀，答錯了！";
+            content.innerHTML = `
+                <div class="feedback-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                <div class="feedback-title">${msg}</div>
+                <div class="feedback-score" style="color:#757575; font-size:24px;">正確圖像是選項 ${q.answer}</div>
+            `;
+        }
 
-    // 綁定選項點擊事件
-    document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            checkAnswer(this.getAttribute('data-opt'));
-        });
-    });
+        overlay.style.display = 'block';
+        overlay.style.animation = 'popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            currentQIndex++;
+            loadQuestion();
+        }, 1800);
+    };
 
     // --- 結束測驗與上傳成績 ---
     async function endQuiz() {
@@ -465,18 +573,17 @@
         document.getElementById('final-score').innerText = `總分: ${score}`;
         
         const statusText = document.getElementById('upload-status');
-        statusText.innerText = "正在上載成績至系統...";
-        statusText.style.color = "var(--text-light)";
+        statusText.innerText = "正在傳送成績至指揮中心...";
+        statusText.style.color = "#757575";
 
-        // 確保每人只留第一次紀錄 (以 GradeX_ClassY_NumZ 命名文件)
         const docId = `Grade${studentData.grade}_Class${studentData.class}_Num${studentData.num}`;
         const docRef = doc(db, "quiz_scores", docId);
 
         try {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                statusText.innerHTML = "<i class='fa-solid fa-circle-exclamation'></i> 你已完成過測試，本次成績不作記錄。";
-                statusText.style.color = "var(--warning)";
+                statusText.innerHTML = "<i class='fa-solid fa-circle-exclamation'></i> 只計算首次完成的分數，這次成績不會列入排行榜喔!";
+                statusText.style.color = "#F57C00";
             } else {
                 await setDoc(docRef, {
                     group: currentGroup,
@@ -486,20 +593,20 @@
                     score: score,
                     timestamp: new Date()
                 });
-                statusText.innerHTML = "<i class='fa-solid fa-circle-check'></i> 首次作答成績已成功上載！";
-                statusText.style.color = "var(--success)";
+                statusText.innerHTML = "<i class='fa-solid fa-circle-check'></i> 首次挑戰成績已成功記錄入排行榜！";
+                statusText.style.color = "#4CAF50";
             }
         } catch (error) {
             console.error("上傳失敗:", error);
-            statusText.innerHTML = "<i class='fa-solid fa-circle-xmark'></i> 網絡異常，上載失敗。";
-            statusText.style.color = "var(--danger)";
+            statusText.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> 網絡異常，成績上傳失敗。";
+            statusText.style.color = "#F44336";
         }
     }
 
     // --- 排行榜功能 ---
     window.openLeaderboard = async function() {
         showScreen('leaderboard-screen');
-        document.getElementById('leaderboard-body').innerHTML = "<tr><td colspan='5'>資料載入中 <i class='fa-solid fa-spinner fa-spin'></i></td></tr>";
+        document.getElementById('leaderboard-body').innerHTML = "<tr><td colspan='5' style='padding:30px;'>資料讀取中 <i class='fa-solid fa-spinner fa-spin'></i></td></tr>";
         
         try {
             const querySnapshot = await getDocs(collection(db, "quiz_scores"));
@@ -510,7 +617,7 @@
             renderLeaderboard();
         } catch (error) {
             console.error("排行榜載入失敗:", error);
-            document.getElementById('leaderboard-body').innerHTML = "<tr><td colspan='5'>無法載入排行榜資料，請稍後再試。</td></tr>";
+            document.getElementById('leaderboard-body').innerHTML = "<tr><td colspan='5'>無法載入排行榜，請檢查網路連線。</td></tr>";
         }
     };
 
@@ -519,7 +626,6 @@
         const filterGrade = document.getElementById('filter-grade').value;
         const filterClass = document.getElementById('filter-class').value;
 
-        // 篩選資料
         let filtered = allLeaderboardData.filter(data => {
             let matchGroup = (filterGroup === 'ALL' || data.group === filterGroup);
             let matchGrade = (filterGrade === 'ALL' || data.grade === filterGrade);
@@ -527,31 +633,30 @@
             return matchGroup && matchGrade && matchClass;
         });
 
-        // 依分數降冪排序
         filtered.sort((a, b) => b.score - a.score);
 
         const tbody = document.getElementById('leaderboard-body');
         tbody.innerHTML = '';
 
         if(filtered.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='5' style='color:#8d99ae;'>目前沒有符合條件的紀錄</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='5' style='color:#9E9E9E; padding:30px;'>目前還沒有資料喔！</td></tr>";
             return;
         }
 
         filtered.forEach((data, index) => {
             const rank = index + 1;
-            let rankIcon = rank;
-            if(rank === 1) rankIcon = `<i class="fa-solid fa-crown rank-icon rank-1"></i>`;
+            let rankIcon = `<b>${rank}</b>`;
+            if(rank === 1) rankIcon = `<i class="fa-solid fa-medal rank-icon rank-1"></i>`;
             if(rank === 2) rankIcon = `<i class="fa-solid fa-medal rank-icon rank-2"></i>`;
             if(rank === 3) rankIcon = `<i class="fa-solid fa-medal rank-icon rank-3"></i>`;
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td><strong>${rankIcon}</strong></td>
-                <td>${data.grade}年級</td>
-                <td>${data.class}班</td>
-                <td>${data.studentNum}</td>
-                <td style="color:var(--primary); font-weight:700;">${data.score}</td>
+                <td>${rankIcon}</td>
+                <td>${data.grade} 年級</td>
+                <td>${data.class} 班</td>
+                <td>${data.studentNum} 號</td>
+                <td style="color:var(--primary-dark); font-weight:900; font-family:'Fredoka',sans-serif; font-size:22px;">${data.score}</td>
             `;
             tbody.appendChild(tr);
         });
